@@ -11,7 +11,7 @@ namespace GSoc {
 		private static IOChannel _io_export;
 		
 		static construct {
-			//_io_export = new IOChannel.file(@"/sys/class/pwm/export", "w+");
+			_io_export = new IOChannel.file(@"/sys/class/pwm/export", "w+");
 		}
 		
 		

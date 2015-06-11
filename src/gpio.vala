@@ -6,7 +6,8 @@ namespace GSoc {
 			OUT;
 			
 		  public string get_name() {
-			  return this.to_string().down().split("_")[2];
+			  //print(this.to_string().down().split("_")[3]);
+			  return this.to_string().down().split("_")[3];
 		  }
 			
 		  public static Direction? type_from_name(string name) {
@@ -65,6 +66,14 @@ namespace GSoc {
 		public IOChannel? io_direction;
 		public IOChannel? io_edge;		
 		
+		
+		private static IOChannel _io_export;
+		
+		static construct {
+			_io_export = new IOChannel.file("/sys/class/gpio/export", "w");
+		}
+			
+		
 		public GPIO(int pin) {
 			Object(pin:pin);
 		}
@@ -73,14 +82,21 @@ namespace GSoc {
 			io_value     = new IOChannel.file(@"/sys/class/gpio/gpio$(pin)/value", "r+");
 			io_edge      = new IOChannel.file(@"/sys/class/gpio/gpio$(pin)/edge", "r+" );		
 			io_direction = new IOChannel.file(@"/sys/class/gpio/gpio$(pin)/direction", "r+");
+		
+		    export();
 		}
 		
+		
+		public void export() {
+			
+		}
 		
 		private Direction _get_direction() {
 			return Direction.type_from_name(_read_io(io_direction));
 		}
 		
 		private void _set_direction(Direction dir) {
+			print(dir.get_name());
 			_write_io(io_direction, dir.get_name());
 		}
 		
